@@ -1,6 +1,7 @@
 __author__ = 'Dragan Vidakovic'
 import csv
 from movies import write_movie_data
+from users import write_users_data
 
 users = []
 movies = []
@@ -17,5 +18,5 @@ with open('training_data.csv') as csvfile:
 
 print("Total users {0}".format(len(users)))
 print("Total movies {0}".format(len(movies)))
-write_movie_data(movies)
-
+#write_movie_data(movies)
+write_users_data(users)
