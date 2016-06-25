@@ -1,7 +1,6 @@
 __author__ = 'Dragan Vidakovic'
 import csv
-import crawler
-import omdb
+from movies import write_movie_data
 
 users = []
 movies = []
@@ -17,10 +16,6 @@ with open('training_data.csv') as csvfile:
                 movies.append(row[1])
 
 print("Total users {0}".format(len(users)))
-print("Total movies {0}".format(len(users)))
-link, poster = crawler.get_imdb_link(movies[10])
-print(link)
-print(poster)
-movie = omdb.imdbid('tt0080339')
-print(movie)
-print(movie['imdb_rating'])
+print("Total movies {0}".format(len(movies)))
+write_movie_data(movies)
+
