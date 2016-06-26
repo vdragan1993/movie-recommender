@@ -27,6 +27,7 @@ def write_movie_data(movies):
                 lines.append(line)
                 # extract other movies data
                 movie_data = {}
+                movie_data['title'] = movie
                 movie_data['id'] = link
                 movie_data['poster'] = poster
                 movie_data['imdb_id'] = imdb_id
