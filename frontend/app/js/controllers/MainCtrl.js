@@ -1,6 +1,6 @@
 module.exports = function ($scope, $location) {
     
-    
+    // nav
     $scope.goFavourites = function () {
         $location.path("/favourites");
     };

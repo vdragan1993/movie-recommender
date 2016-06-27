@@ -1,5 +1,16 @@
 module.exports = function ($scope, $location) {
 
-     $scope.test = "test message";
+    // nav
+    $scope.goFavourites = function () {
+        $location.path("/favourites");
+    };
+    
+    $scope.goRated = function () {
+        $location.path("/rated");
+    };
+
+    $scope.goRegLog = function () {
+        $location.path("/reglog");
+    };
 
 };
