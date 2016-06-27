@@ -10,6 +10,7 @@
     var mainCtrl = require('./controllers/MainCtrl');
     var favCtrl = require('./controllers/FavCtrl');
     var rateCtrl = require('./controllers/RateCtrl');
+    var regLogCtrl = require('./controllers/RegLogCtrl');
 
     angular.module('movieApp', ['ngRoute', 'ngAnimate'])
     
@@ -32,6 +33,10 @@
                 templateUrl: "./partials/rated.html",
                 controller: "RateController"
             })
+            .when("/reglog", {
+                templateUrl: "./partials/reglog.html",
+                controller: "RegLogController"
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -41,6 +46,7 @@
     // load controllers
     .controller('MainController', ['$scope', '$location', mainCtrl])
     .controller('FavController', ['$scope', '$location', favCtrl])
-    .controller('RateController', ['$scope', '$location', rateCtrl]);
+    .controller('RateController', ['$scope', '$location', rateCtrl])
+    .controller('RegLogController', ['$scope', '$location', regLogCtrl]);
     
 }());

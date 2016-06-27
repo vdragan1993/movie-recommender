@@ -57,39 +57,39 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <p>Rate given 5 movies with rates 0 to 10 (0 if not watched):</p>
 
-                 <form name="" id="" novalidate>
+                 <form method="POST" ng-submit="ratedMovies()">
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <p>Movie1</p>
-                            <input type="number" min="0" max="10" value="0" class="form-control" placeholder="Rate" id="rate" required data-validation-required-message="Please rate at least 1 favourite movie.">
+                            <input type="number" ng-model="movies.rate1" ng-init="movies.rate1=0" min="0" max="10" class="form-control" placeholder="Rate" id="rate" required data-validation-required-message="Please rate at least 1 favourite movie.">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <p>Movie2</p>
-                            <input type="number" min="0" max="10" value="0" class="form-control" placeholder="Rate" id="rate">
+                            <input type="number" ng-model="movies.rate2" ng-init="movies.rate2=0" min="0" max="10"  class="form-control" placeholder="Rate" id="rate">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <p>Movie3</p>
-                            <input type="number" min="0" max="10" value="0" class="form-control" placeholder="Rate" id="rate" >
+                            <input type="number" ng-model="movies.rate3" ng-init="movies.rate3=0" min="0" max="10" class="form-control" placeholder="Rate" id="rate" >
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <p>Movie4</p>
-                            <input type="number" min="0" max="10" value="0" class="form-control" placeholder="Rate" id="rate" >
+                            <input type="number" ng-model="movies.rate4" ng-init="movies.rate4=0" min="0" max="10" class="form-control" placeholder="Rate" id="rate" >
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <p>Movie5</p>
-                            <input type="number" min="0" max="10" value="0" class="form-control" placeholder="Rate" id="rate" >
+                            <input type="number" ng-model="movies.rate5" ng-init="movies.rate5=0" min="0" max="10" class="form-control" placeholder="Rate" id="rate" >
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>

@@ -13,4 +13,9 @@ module.exports = function ($scope, $location) {
         $location.path("/reglog");
     };
 
+    // action
+    $scope.ratedMovies = function () {
+        console.log("get recommendations for rated movies");
+        console.log($scope.movies);
+    };
 };

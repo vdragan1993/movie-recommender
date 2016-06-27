@@ -1,5 +1,5 @@
 module.exports = function ($scope, $location) {
-    
+
     // nav
     $scope.goFavourites = function () {
         $location.path("/favourites");
@@ -13,10 +13,15 @@ module.exports = function ($scope, $location) {
         $location.path("/reglog");
     };
 
-    // action
-    $scope.favouriteMovies = function () {
-        console.log("get recommendations for favourite movies");
-        console.log($scope.movies);
+    // actions
+    $scope.login = function () {
+        console.log("user login");
+        console.log($scope.loginUser);
+    };
+
+    $scope.register = function () {
+        console.log("user registration");
+        console.log($scope.registerUser);
     };
 
 };

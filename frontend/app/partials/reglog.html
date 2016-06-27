@@ -43,9 +43,75 @@
                     <div class="site-heading">
                         <h1>Movie Recommender</h1>
                         <hr class="small">
-                        <span class="subheading">Discover new movies</span>
+                        <span class="subheading">Join us to discover more</span>
                     </div>
                 </div>
             </div>
         </div>
     </header>
+
+<!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>Log In:</p>
+                 <form method="POST" ng-submit="login()">
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <input type="text" ng-model="loginUser.username" class="form-control" placeholder="Username"  required data-validation-required-message="Please enter your username">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                   
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <input type="password" ng-model="loginUser.password" class="form-control" placeholder="Password" required data-validation-required-message="Please enter your password">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <button type="submit" class="btn btn-default">Log In</button>
+                        </div>
+                    </div>
+                </form>
+                
+                <br>
+                <hr>
+
+                <p>Registration:</p>
+                 <form method="POST" ng-submit="register()">
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <input type="text" ng-model="registerUser.username" class="form-control" placeholder="Username"  required data-validation-required-message="Please enter your username">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <input type="text" ng-model="registerUser.email" class="form-control" placeholder="Email address"  required data-validation-required-message="Please enter your email address">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                   
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <input type="password" ng-model="registerUser.password" class="form-control" placeholder="Password" required data-validation-required-message="Please enter your password">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <button type="submit" class="btn btn-default">Register</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
