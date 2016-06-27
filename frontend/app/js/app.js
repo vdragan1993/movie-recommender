@@ -8,6 +8,8 @@
     
     // controllers
     var mainCtrl = require('./controllers/MainCtrl');
+    var favCtrl = require('./controllers/FavCtrl');
+    var rateCtrl = require('./controllers/RateCtrl');
 
     angular.module('movieApp', ['ngRoute', 'ngAnimate'])
     
@@ -15,11 +17,20 @@
         '$locationProvider',
         '$routeProvider',
         function($locationProvider, $routeProvider) {
+        $locationProvider.hashPrefix('!');
         // routes
         $routeProvider
             .when("/", {
                 templateUrl: "./partials/home.html",
-                controller: "HomeController"
+                controller: "MainController"
+            })
+            .when("/favourites", {
+                templateUrl: "./partials/favourites.html",
+                controller: "FavController"
+            })
+            .when("/rated", {
+                templateUrl: "./partials/rated.html",
+                controller: "RateController"
             })
             .otherwise({
                 redirectTo: '/'
@@ -27,7 +38,9 @@
         }
     ])
 
-    // load controller
-    .controller('HomeController', ['$scope', mainCtrl]);
+    // load controllers
+    .controller('MainController', ['$scope', '$location', mainCtrl])
+    .controller('FavController', ['$scope', '$location', favCtrl])
+    .controller('RateController', ['$scope', '$location', rateCtrl]);
     
 }());
