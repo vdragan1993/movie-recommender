@@ -1,2 +1,5 @@
 data/.idea/
 data/__pycache__/
+frontend/node_modules/
+frontend/app/bower_components/
+frontend/dist/

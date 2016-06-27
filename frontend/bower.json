@@ -1,0 +1,26 @@
+{
+  "name": "frontend",
+  "description": "frontend app for movie-recommender project.",
+  "main": "index.js",
+  "authors": [
+    "Dragan Vidakovic <vdragan1993@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/vdragan1993/movie-recommender",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "^1.5.7",
+    "angular-animate": "^1.5.7",
+    "angular-route": "^1.5.7",
+    "jquery": "^3.0.0",
+    "animate.css": "^3.5.2",
+    "bootstrap": "^3.3.6",
+    "font-awesome": "fontawesome#^4.6.3"
+  }
+}

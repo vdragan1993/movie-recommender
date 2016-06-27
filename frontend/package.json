@@ -1,0 +1,36 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "frontend app for movie-recommender project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vdragan1993/movie-recommender.git"
+  },
+  "author": "Dragan Vidakovic <vdragan1993@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vdragan1993/movie-recommender/issues"
+  },
+  "homepage": "https://github.com/vdragan1993/movie-recommender#readme",
+  "devDependencies": {
+    "bower": "^1.7.9",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-connect": "^4.1.0",
+    "gulp-jshint": "^2.0.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-uglify": "^1.5.4",
+    "jshint": "^2.9.2"
+  },
+  "dependencies": {
+    "angular": "^1.5.7",
+    "angular-animate": "^1.5.7",
+    "angular-route": "^1.5.7",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.0"
+  }
+}
