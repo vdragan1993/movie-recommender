@@ -3,3 +3,7 @@ data/__pycache__/
 frontend/node_modules/
 frontend/app/bower_components/
 frontend/dist/
+backend/recommender/.idea/
+backend/recommender/engine/__pycache__/
+backend/recommender/recommender/.idea/
+backend/recommender/recommender/__pycache__/
