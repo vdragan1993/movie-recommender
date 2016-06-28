@@ -12,13 +12,24 @@
     var rateCtrl = require('./controllers/RateCtrl');
     var regLogCtrl = require('./controllers/RegLogCtrl');
 
+    // services
+    var RegLog = require('./services/RegLog');
+
     angular.module('movieApp', ['ngRoute', 'ngAnimate'])
     
     .config([
+        '$httpProvider',
         '$locationProvider',
         '$routeProvider',
-        function($locationProvider, $routeProvider) {
+        function($httpProvider, $locationProvider, $routeProvider) {
+        // for urls
         $locationProvider.hashPrefix('!');
+        
+        // cors
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        
+        
         // routes
         $routeProvider
             .when("/", {
@@ -43,10 +54,16 @@
         }
     ])
 
+
+
+    
     // load controllers
     .controller('MainController', ['$scope', '$location', mainCtrl])
     .controller('FavController', ['$scope', '$location', favCtrl])
     .controller('RateController', ['$scope', '$location', rateCtrl])
-    .controller('RegLogController', ['$scope', '$location', regLogCtrl]);
+    .controller('RegLogController', ['$scope', '$location', 'RegLog', regLogCtrl])
+    // load services
+    .factory('RegLog', ['$http', RegLog]);
+    
     
 }());

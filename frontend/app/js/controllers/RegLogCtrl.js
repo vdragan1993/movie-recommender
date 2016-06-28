@@ -1,4 +1,4 @@
-module.exports = function ($scope, $location) {
+module.exports = function ($scope, $location, RegLog) {
 
     // nav
     $scope.goFavourites = function () {
@@ -22,6 +22,12 @@ module.exports = function ($scope, $location) {
     $scope.register = function () {
         console.log("user registration");
         console.log($scope.registerUser);
+        RegLog.test().then(
+            function (response) {
+                console.log("VRATIO PODATKE!");
+                console.log(response.data);
+            }
+        );
     };
 
 };
