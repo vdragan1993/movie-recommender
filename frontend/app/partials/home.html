@@ -24,7 +24,13 @@
                         <a href="" ng-click="goRated()">Rated Recomendation</a>
                     </li>
                     <li>
-                        <a href="" ng-click="goRegLog()">Log In / Register</a>
+                        <a href="" ng-if="!$root.logged" ng-click="goRegLog()">Log In / Register</a>
+                    </li>
+                    <li>
+                        <a href="" ng-if="$root.logged === 'user'" ng-click="goProfile()">{{$root.user.username}}</a>
+                    </li>
+                    <li>
+                        <a href="" ng-if="$root.logged === 'user'" ng-click="goLogout()">Log Out</a>
                     </li>
                 </ul>
             </div>

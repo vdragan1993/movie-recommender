@@ -1,4 +1,4 @@
-module.exports = function ($scope, $location, RegLog) {
+module.exports = function ($scope, $location, $rootScope, RegLog) {
 
     // messages
     $scope.registerMessage = null;
@@ -15,6 +15,14 @@ module.exports = function ($scope, $location, RegLog) {
 
     $scope.goRegLog = function () {
         $location.path("/reglog");
+    };
+
+    $scope.goProfile = function () {
+        $location.path("/profile");
+    };
+
+    $scope.goLogout = function () {
+        $location.path("/logout");
     };
 
     // actions
@@ -44,7 +52,8 @@ module.exports = function ($scope, $location, RegLog) {
                 }
                 else
                 {
-                    console.log(response.data);
+                    RegLog.storeCredentials(response.data.user, 'user');
+                    $location.path("/");
                 }
             }
         );

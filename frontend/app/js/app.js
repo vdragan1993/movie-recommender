@@ -11,6 +11,7 @@
     var favCtrl = require('./controllers/FavCtrl');
     var rateCtrl = require('./controllers/RateCtrl');
     var regLogCtrl = require('./controllers/RegLogCtrl');
+    var logoutCtrl = require('./controllers/LogoutCtrl');
 
     // services
     var RegLog = require('./services/RegLog');
@@ -33,8 +34,6 @@
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         
-       
-        
         // routes
         $routeProvider
             .when("/", {
@@ -53,6 +52,10 @@
                 templateUrl: "./partials/reglog.html",
                 controller: "RegLogController"
             })
+            .when("/logout", {
+                templateUrl: "./partials/logout.html",
+                controller: "LogoutController"
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -60,15 +63,27 @@
     ])
 
 
-
-    
     // load controllers
-    .controller('MainController', ['$scope', '$location', mainCtrl])
-    .controller('FavController', ['$scope', '$location', favCtrl])
-    .controller('RateController', ['$scope', '$location', rateCtrl])
-    .controller('RegLogController', ['$scope', '$location', 'RegLog', regLogCtrl])
+    .controller('MainController', ['$scope', '$location','$rootScope', mainCtrl])
+    .controller('FavController', ['$scope', '$location','$rootScope',  favCtrl])
+    .controller('RateController', ['$scope', '$location','$rootScope', rateCtrl])
+    .controller('RegLogController', ['$scope', '$location','$rootScope', 'RegLog', regLogCtrl])
+    .controller('LogoutController', ['$scope', '$location', '$rootScope', 'RegLog', logoutCtrl])
     // load services
-    .factory('RegLog', ['$http', RegLog]);
+    .factory('RegLog', ['$http', '$rootScope', RegLog])
+
+
+    //authentication
+    .run(function(RegLog){
+        RegLog.isLogged().then(function(response){
+            if (response.data.message === 'ok'){
+                RegLog.storeCredentials(response.data.user, 'user');
+            }
+            else {
+                RegLog.storeCredentials(null, null);
+            }
+        });
+    });
     
     
 }());

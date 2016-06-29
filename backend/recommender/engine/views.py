@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from .serializers import UserSerializer
+from django.shortcuts import get_object_or_404
 
 
 def index(request):
@@ -66,14 +68,61 @@ def login(request):
         data = JSONParser().parse(request)
         username = data['username']
         password = data['password']
+        response = {}
         message = ''
 
         # login mechanism
         user = authenticate(username=username, password=password)
         if user is not None:
-            message = 'Log in success'
+            serializer = UserSerializer(user)
+            response['user'] = serializer.data
+            user.is_staff = True
+            user.save()
         else:
             message = 'Wrong username or password!'
+
+        response['message'] = message
+        return JsonResponse(response)
+
+
+
+@csrf_exempt
+def logged(request):
+    """
+    Checks if user is logged in
+    :param request:
+    :return:
+    """
+    if request.method == 'GET':
+        response = {}
+        message = 'no'
+        users = User.objects.all()
+        for user in users:
+            if user.is_staff and not user.is_superuser:
+                message = 'ok'
+                serializer = UserSerializer(user)
+                response['user'] = serializer.data
+                break
+
+        response['message'] = message
+        return JsonResponse(response)
+
+
+@csrf_exempt
+def logout(request, user_id):
+    """
+    Logs out user
+    :param request:
+    :param user_id:
+    :return:
+    """
+    if request.method == 'GET':
+        message = 'no'
+        user = get_object_or_404(User, pk=user_id)
+        if user is not None:
+            user.is_staff = False
+            user.save()
+            message = 'ok'
 
         response = {}
         response['message'] = message

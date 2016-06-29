@@ -1,4 +1,4 @@
-module.exports = function ($scope, $location) {
+module.exports = function ($scope, $location, $rootScope) {
     
     // nav
     $scope.goFavourites = function () {
@@ -11,6 +11,14 @@ module.exports = function ($scope, $location) {
 
     $scope.goRegLog = function () {
         $location.path("/reglog");
+    };
+
+    $scope.goProfile = function () {
+        $location.path("/profile");
+    };
+
+    $scope.goLogout = function () {
+        $location.path("/logout");
     };
 
     // action
