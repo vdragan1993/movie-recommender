@@ -22,6 +22,10 @@
         '$locationProvider',
         '$routeProvider',
         function($httpProvider, $locationProvider, $routeProvider) {
+        // csrf
+        $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+        
         // for urls
         $locationProvider.hashPrefix('!');
         
@@ -29,6 +33,7 @@
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         
+       
         
         // routes
         $routeProvider
