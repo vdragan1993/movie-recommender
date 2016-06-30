@@ -12,9 +12,11 @@
     var rateCtrl = require('./controllers/RateCtrl');
     var regLogCtrl = require('./controllers/RegLogCtrl');
     var logoutCtrl = require('./controllers/LogoutCtrl');
+    var profileCtrl = require('./controllers/ProfileCtrl');
 
     // services
     var RegLog = require('./services/RegLog');
+    var Profile = require('./services/Profile');
 
     angular.module('movieApp', ['ngRoute', 'ngAnimate'])
     
@@ -56,6 +58,10 @@
                 templateUrl: "./partials/logout.html",
                 controller: "LogoutController"
             })
+            .when("/profile", {
+                templateUrl: "./partials/profile.html",
+                controller: "ProfileController"
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -69,8 +75,10 @@
     .controller('RateController', ['$scope', '$location','$rootScope', rateCtrl])
     .controller('RegLogController', ['$scope', '$location','$rootScope', 'RegLog', regLogCtrl])
     .controller('LogoutController', ['$scope', '$location', '$rootScope', 'RegLog', logoutCtrl])
+    .controller('ProfileController', ['$scope', '$location', '$rootScope', 'Profile', profileCtrl])
     // load services
     .factory('RegLog', ['$http', '$rootScope', RegLog])
+    .factory('Profile', ['$http', '$rootScope', Profile])
 
 
     //authentication

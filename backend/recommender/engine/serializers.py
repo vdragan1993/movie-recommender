@@ -11,3 +11,4 @@ class UserSerializer(serializers.ModelSerializer):
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
+        fields = ('id', 'host', 'port', 'name', 'language')

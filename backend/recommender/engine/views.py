@@ -6,8 +6,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from .serializers import UserSerializer
+from .serializers import UserSerializer, ServiceSerializer
 from django.shortcuts import get_object_or_404
+from .models import Service
 
 
 def index(request):
@@ -127,3 +128,103 @@ def logout(request, user_id):
         response = {}
         response['message'] = message
         return JsonResponse(response)
+
+
+@csrf_exempt
+def profile(request, user_id):
+    """
+    Displays profile data for given user
+    :param request:
+    :param user_id:
+    :return:
+    """
+    if request.method == 'GET':
+        response = {}
+        message = 'no'
+        user = get_object_or_404(User, pk=user_id)
+        if user is not None:
+            message = 'ok'
+            list_of_services = []
+            services = Service.objects.filter(user=user)
+            for service in services:
+                serializer = ServiceSerializer(service)
+                list_of_services.append(serializer.data)
+
+            response['services'] = list_of_services
+
+        response['message'] = message
+        return JsonResponse(response)
+
+
+@csrf_exempt
+def edit(request):
+    """
+    Update existing service
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        # extracting data
+        data = JSONParser().parse(request)
+        service = data['service']
+        service_id = int(service['id'])
+        host = service['host']
+        port = int(service['port'])
+        name = service['name']
+        language = service['language']
+        # updating
+        update_service = Service.objects.get(pk=service_id)
+        update_service.host = host
+        update_service.port = port
+        update_service.name = name
+        update_service.language = language
+        update_service.save()
+        # response
+        response = {}
+        response['message'] = 'ok'
+        return JsonResponse(response)
+
+
+@csrf_exempt
+def insert(request):
+    """
+    Creating new service
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        # extracting data
+        data = JSONParser().parse(request)
+        service = data['service']
+        host = service['host']
+        port = int(service['port'])
+        name = service['name']
+        language = service['language']
+        user_id = int(data['user'])
+        user = get_object_or_404(User, pk=user_id)
+        # inserting
+        new_service = Service.objects.create(user=user, host=host, port=port, name=name, language=language)
+        new_service.save()
+        # response
+        response = {}
+        response['message'] = 'ok'
+        return JsonResponse(response)
+
+
+
+@csrf_exempt
+def delete(request, service_id):
+    """
+    Deleting service
+    :param request:
+    :param service_id:
+    :return:
+    """
+    if request.method == 'GET':
+        service = get_object_or_404(Service, pk=service_id)
+        service.delete()
+        response = {}
+        response['message'] = "ok"
+        return JsonResponse(response)
+
+

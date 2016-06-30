@@ -1,0 +1,132 @@
+ <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#!/">Home</a>
+                    </li>
+                    <li>
+                        <a href="" ng-click="goFavourites()">Favourite Recommendation</a>
+                    </li>
+                    <li>
+                        <a href="" ng-click="goRated()">Rated Recomendation</a>
+                    </li>
+                    <li>
+                        <a href="" ng-if="!$root.logged" ng-click="goRegLog()">Log In / Register</a>
+                    </li>
+                    <li>
+                        <a href="" ng-if="$root.logged === 'user'" ng-click="goProfile()">{{$root.user.username}}</a>
+                    </li>
+                    <li>
+                        <a href="" ng-if="$root.logged === 'user'" ng-click="goLogout()">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+
+ <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('img/movies.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>Profile page</h1>
+                        <hr class="small">
+                        <span class="subheading">Welcome {{$root.user.username}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+ <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>List of user defined services: </p>
+                <table id="services">
+                    <tr>
+                        <th>Location</th>
+                        <th>Name</th>
+                        <th>Programming Language</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tr ng-repeat="service in services">
+                        <td>http://{{service.host}}:{{service.port}}</td>
+                        <td>{{service.name}}</td>
+                        <td>{{service.language}}</td>
+                        <td><button id="edit" ng-click="edit(service.id)">Edit</button></td>
+                        <td><button id="delete" ng-click="delete(service.id)">Delete</button></td>
+                    </tr>
+                </table>
+                <br>
+                <hr>
+                <p id="info">{{infoMessage}}</p>
+                <hr>
+
+                <p>{{actionMessage}}</p>
+                 <form method="POST" ng-submit="serviceAction()" novalidate>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <input type="text" ng-model="registerService.host" class="form-control" placeholder="Host"  required data-validation-required-message="Please enter your username">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <input type="number" min="1000" max="9999" ng-model="registerService.port" class="form-control" placeholder="Port" id="port" required data-validation-required-message="Please enter your email address">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                   
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <input type="text" ng-model="registerService.name" class="form-control" placeholder="Name" required data-validation-required-message="Please enter your password">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <input type="text" ng-model="registerService.language" class="form-control" placeholder="Programming language" required data-validation-required-message="Please enter your password">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <button type="submit" class="btn btn-default">{{buttonMessage}}</button>
+                        </div>
+                    </div>
+                </form>
+                <button ng-click="cancel()" class="btn btn-default" id="cancel">Reset form</button>
+                
+
+            </div>
+        </div>
+    </div>
+
+    
+
+    
