@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/vdragan1993/movie-recommender#readme",
   "devDependencies": {
+    "angular-sanitize": "^1.5.7",
     "bower": "^1.7.9",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
@@ -24,7 +25,9 @@
     "gulp-jshint": "^2.0.1",
     "gulp-minify-css": "^1.2.4",
     "gulp-uglify": "^1.5.4",
-    "jshint": "^2.9.2"
+    "jshint": "^2.9.2",
+    "run-sequence": "^1.2.2",
+    "ui-select": "^0.18.0"
   },
   "dependencies": {
     "angular": "^1.5.7",

@@ -61,36 +61,55 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <p>Enter up to 3 favourite movies:</p>
+                <p>Enter up to 3 favourite movies. Greater number of entered movies guarantees better recommendation:</p>
                  <form method="POST" ng-submit="favouriteMovies()">
+                
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <input type="text" ng-model="movies.movie1" class="form-control" placeholder="Favourite Movie No. 1" id="fav1" required data-validation-required-message="Please enter at least 1 favourite movie.">
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
-                   
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <input type="text" ng-model="movies.movie2" class="form-control" placeholder="Favourite Movie No. 2" id="fav2">
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
-                    
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <input type="text" ng-model="movies.movie3" class="form-control" placeholder="Favourite Movie No. 3" id="fav3" >
-                            <p class="help-block text-danger"></p>
+                            <ui-select ng-model="movie1.selected" title="Favourite Movie No. 1">
+                                <ui-select-match  placeholder="Select or search a movie in the list...">{{$select.selected.title}}</ui-select-match>
+                                    <ui-select-choices repeat="movie in movies | filter: $select.search">
+                                        <span ng-bind-html="movie.title | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                            </ui-select>
                         </div>
                     </div>
                     <br>
+                    
+                   
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <ui-select ng-model="movie2.selected" title="Favourite Movie No. 2">
+                                <ui-select-match  placeholder="Select or search a movie in the list...">{{$select.selected.title}}</ui-select-match>
+                                    <ui-select-choices repeat="movie in movies | filter: $select.search">
+                                        <span ng-bind-html="movie.title | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <br>
+                    
+
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <ui-select ng-model="movie3.selected" title="Favourite Movie No. 3">
+                                <ui-select-match  placeholder="Select or search a movie in the list...">{{$select.selected.title}}</ui-select-match>
+                                    <ui-select-choices repeat="movie in movies | filter: $select.search">
+                                        <span ng-bind-html="movie.title | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    
+                    <p id="info">{{infoMessage}}</p>
+                    
                     <div class="row">
                         <div class="form-group col-xs-12">
                             <button type="submit" class="btn btn-default">Get Recommendations</button>
                         </div>
                     </div>
                 </form>
-
+        
             </div>
         </div>
     </div>

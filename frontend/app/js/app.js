@@ -5,7 +5,9 @@
     require('angular');
     require('angular-route');
     require('angular-animate');
-    
+    require('ui-select');
+    require('angular-sanitize');
+
     // controllers
     var mainCtrl = require('./controllers/MainCtrl');
     var favCtrl = require('./controllers/FavCtrl');
@@ -18,7 +20,8 @@
     var RegLog = require('./services/RegLog');
     var Profile = require('./services/Profile');
 
-    angular.module('movieApp', ['ngRoute', 'ngAnimate'])
+
+    angular.module('movieApp', ['ngRoute', 'ngAnimate', 'ui.select', 'ngSanitize'])
     
     .config([
         '$httpProvider',
@@ -71,7 +74,7 @@
 
     // load controllers
     .controller('MainController', ['$scope', '$location','$rootScope', mainCtrl])
-    .controller('FavController', ['$scope', '$location','$rootScope',  favCtrl])
+    .controller('FavController', ['$scope', '$location','$rootScope', favCtrl])
     .controller('RateController', ['$scope', '$location','$rootScope', rateCtrl])
     .controller('RegLogController', ['$scope', '$location','$rootScope', 'RegLog', regLogCtrl])
     .controller('LogoutController', ['$scope', '$location', '$rootScope', 'RegLog', logoutCtrl])
@@ -79,7 +82,7 @@
     // load services
     .factory('RegLog', ['$http', '$rootScope', RegLog])
     .factory('Profile', ['$http', '$rootScope', Profile])
-
+   
 
     //authentication
     .run(function(RegLog){
