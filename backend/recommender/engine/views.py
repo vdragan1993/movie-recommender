@@ -9,6 +9,9 @@ from django.contrib.auth import logout as auth_logout
 from .serializers import UserSerializer, ServiceSerializer
 from django.shortcuts import get_object_or_404
 from .models import Service
+import pymongo
+from pymongo import MongoClient
+import json
 
 
 def index(request):
@@ -228,3 +231,146 @@ def delete(request, service_id):
         return JsonResponse(response)
 
 
+@csrf_exempt
+def movies(request):
+    """
+    Collect all movie titles and ids
+    :param request:
+    :return:
+    """
+    if request.method == 'GET':
+        client = MongoClient()
+        db = client.recommend
+        all_movies = db.movies.find().sort("title", pymongo.ASCENDING)
+        movies = []
+        for movie in all_movies:
+            this_movie = {}
+            this_movie['id'] = movie['id']
+            this_movie['title'] = movie['title']
+            movies.append(this_movie)
+
+        response = {}
+        response['movies'] = movies
+        return JsonResponse(response)
+
+
+@csrf_exempt
+def favourites(request):
+    """
+    Favourites based recommendation
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        favourites = json.loads(data['favourites'])
+        heuristic = data['heuristic']
+        print(heuristic)
+        print(len(favourites))
+        for favourite in favourites:
+            print(favourite)
+        response = {}
+        response['message'] = 'No recommendations'
+        return JsonResponse(response)
+
+
+@csrf_exempt
+def rated(request):
+    """
+    Rating based recommendation
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        ratings = json.loads(data['rated'])
+        heuristic = data['heuristic']
+        print(heuristic)
+        print(len(ratings))
+        for rate in ratings:
+            print(rate)
+        response = {}
+        response['message'] = 'No recommendations'
+        return JsonResponse(response)
+
+
+def create_heuristics(name, user):
+    """
+    Help function for creating list of available heuristics
+    :param name: name of heuristics
+    :param user: default or user
+    :return:
+    """
+    method = {}
+    method['name'] = name
+    method['user'] = user
+    return method
+
+
+@csrf_exempt
+def heuristics(request, user_id):
+    """
+    List all posible heuristics for given user
+    :param requeste:
+    :param user_id:
+    :return:
+    """
+    if request.method == 'GET':
+        methods = []
+        # default methods
+        methods.append(create_heuristics('Euclidean distance', 'default'))
+        methods.append(create_heuristics('Pearson correlation', 'default'))
+
+        user = get_object_or_404(User, pk=user_id)
+        if user is not None:
+            services = Service.objects.filter(user=user)
+            for service in services:
+                methods.append(create_heuristics(service.name, service.user.username))
+
+        response = {}
+        response['heuristics'] = methods
+        return JsonResponse(response)
+
+
+def find_movie(title):
+    """
+    Help method for getting movies from database
+    :param title: movie title
+    :return:
+    """
+    client = MongoClient()
+    db = client.recommend
+    cursor = db.movies.find({'title': title})
+    for document in cursor:
+        return document
+
+@csrf_exempt
+def defaults(request, number):
+    """
+    List default movies to rate
+    :param request:
+    :param number:
+    :return:
+    """
+    part_one = ['Forrest Gump', 'The Exorcist', 'The Notebook', 'American Pie 2', 'The Godfather', 'A Beautiful Mind', 'Memento', 'The Matrix']
+    part_two = ['Requiem for a Dream', 'Halloween', 'Pretty Woman', 'Scary Movie 2', 'Reservoir Dogs', "Schindler's List", 'Vertigo', 'Batman']
+
+    ret_val = []
+
+    collection = None
+    if int(number) == 8:
+        collection = part_one
+    else:
+        collection = part_two
+
+    for movie in collection:
+        this_movie = find_movie(movie)
+        ret_movie = {}
+        ret_movie['id'] = this_movie['id']
+        ret_movie['title'] = this_movie['title']
+        ret_movie['rate'] = 0
+        ret_val.append(ret_movie)
+
+    response = {}
+    response['movies'] = ret_val
+    return JsonResponse(response)

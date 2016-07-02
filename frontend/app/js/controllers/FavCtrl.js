@@ -1,4 +1,4 @@
-module.exports = function ($scope, $location, $rootScope) {
+module.exports = function ($scope, $location, $rootScope, Favourites) {
     
     // initialization
     $scope.infoMessage = null;
@@ -7,6 +7,27 @@ module.exports = function ($scope, $location, $rootScope) {
     $scope.movie2 = {};
     $scope.movie3 = {};
     $scope.favourites = [];
+    $scope.movies = [];
+    // for user defined
+    $scope.services = [];
+    $scope.heuristic = {};
+
+    // load movies
+    Favourites.load().then(
+        function (response) {
+            $scope.movies = response.data.movies;
+        }
+    );
+
+    // load services for reco
+    if ($rootScope.user)
+    {
+        Favourites.services($rootScope.user.id).then(
+            function (response) {
+                $scope.services = response.data.heuristics;
+            }
+        );
+    }
 
     // nav
     $scope.goFavourites = function () {
@@ -49,21 +70,18 @@ module.exports = function ($scope, $location, $rootScope) {
             return;
         }
 
-        console.log("Sending favourite movies...");
-        console.log($scope.favourites);
-        console.log(angular.toJson($scope.favourites));
+        Favourites.send(angular.toJson($scope.favourites), $scope.heuristic.selected).then(
+            function (response) {
+                if (response.data.message) {
+                    $scope.infoMessage =  response.data.message;
+                    $scope.movie1 = {};
+                    $scope.movie2 = {};
+                    $scope.movie3 = {};
+                    $scope.favourites = [];
+                }
+            }
+        );
         
-
     };
-
-
-    $scope.movies = [
-        {title: "Film 1", id:"id11"},
-        {title: "Film 2", id:"id22"},
-        {title: "Film 3", id:"id33"},
-        {title: "Film 4", id:"id44"},
-        {title: "Film 5", id:"id55"}
-    ];
-
 
 };

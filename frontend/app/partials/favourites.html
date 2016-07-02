@@ -68,7 +68,7 @@
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <ui-select ng-model="movie1.selected" title="Favourite Movie No. 1">
                                 <ui-select-match  placeholder="Select or search a movie in the list...">{{$select.selected.title}}</ui-select-match>
-                                    <ui-select-choices repeat="movie in movies | filter: $select.search">
+                                    <ui-select-choices repeat="movie in movies | filter: $select.search | limitTo: 50">
                                         <span ng-bind-html="movie.title | highlight: $select.search"></span>
                                     </ui-select-choices>
                             </ui-select>
@@ -81,7 +81,7 @@
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <ui-select ng-model="movie2.selected" title="Favourite Movie No. 2">
                                 <ui-select-match  placeholder="Select or search a movie in the list...">{{$select.selected.title}}</ui-select-match>
-                                    <ui-select-choices repeat="movie in movies | filter: $select.search">
+                                    <ui-select-choices repeat="movie in movies | filter: $select.search | limitTo: 50">
                                         <span ng-bind-html="movie.title | highlight: $select.search"></span>
                                     </ui-select-choices>
                             </ui-select>
@@ -94,7 +94,7 @@
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <ui-select ng-model="movie3.selected" title="Favourite Movie No. 3">
                                 <ui-select-match  placeholder="Select or search a movie in the list...">{{$select.selected.title}}</ui-select-match>
-                                    <ui-select-choices repeat="movie in movies | filter: $select.search">
+                                    <ui-select-choices repeat="movie in movies | filter: $select.search | limitTo: 50">
                                         <span ng-bind-html="movie.title | highlight: $select.search"></span>
                                     </ui-select-choices>
                             </ui-select>
@@ -102,6 +102,21 @@
                     </div>
                     
                     <p id="info">{{infoMessage}}</p>
+                    
+                    <div ng-if="$root.logged === 'user'">
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <p>Select recommendation heuristic (first two are default): </p>
+                                <ui-select ng-model="heuristic.selected" title="Heuristic">
+                                    <ui-select-match  placeholder="Select or search a heuristic in the list...">{{$select.selected.name}}</ui-select-match>
+                                        <ui-select-choices repeat="service in services | filter: $select.search">
+                                            <span ng-bind-html="service.name | highlight: $select.search"></span>
+                                        </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
                     
                     <div class="row">
                         <div class="form-group col-xs-12">

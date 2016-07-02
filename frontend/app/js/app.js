@@ -19,6 +19,8 @@
     // services
     var RegLog = require('./services/RegLog');
     var Profile = require('./services/Profile');
+    var Favourites = require('./services/Favourites');
+    var Rated = require('./services/Rated');
 
 
     angular.module('movieApp', ['ngRoute', 'ngAnimate', 'ui.select', 'ngSanitize'])
@@ -74,14 +76,16 @@
 
     // load controllers
     .controller('MainController', ['$scope', '$location','$rootScope', mainCtrl])
-    .controller('FavController', ['$scope', '$location','$rootScope', favCtrl])
-    .controller('RateController', ['$scope', '$location','$rootScope', rateCtrl])
+    .controller('FavController', ['$scope', '$location','$rootScope','Favourites', favCtrl])
+    .controller('RateController', ['$scope', '$location','$rootScope','Rated', rateCtrl])
     .controller('RegLogController', ['$scope', '$location','$rootScope', 'RegLog', regLogCtrl])
     .controller('LogoutController', ['$scope', '$location', '$rootScope', 'RegLog', logoutCtrl])
     .controller('ProfileController', ['$scope', '$location', '$rootScope', 'Profile', profileCtrl])
     // load services
     .factory('RegLog', ['$http', '$rootScope', RegLog])
     .factory('Profile', ['$http', '$rootScope', Profile])
+    .factory('Favourites', ['$http', '$rootScope', Favourites])
+    .factory('Rated', ['$http', '$rootScope', Rated])
    
 
     //authentication
