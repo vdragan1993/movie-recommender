@@ -55,6 +55,8 @@ module.exports = function ($scope, $location, $rootScope, Favourites) {
 
     // action
     $scope.favouriteMovies = function () {
+
+        $scope.infoMessage = null;
         
         if ($scope.movie1.selected) {
             $scope.favourites.push($scope.movie1.selected);
@@ -86,6 +88,7 @@ module.exports = function ($scope, $location, $rootScope, Favourites) {
                 else {
                    $scope.results = response.data.results; 
                    $scope.favourites = [];
+                   $scope.infoMessage = null;
                 }
                 
             }

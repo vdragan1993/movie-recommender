@@ -4,6 +4,6 @@ module.exports = function () {
         scope: {
             info: '='
         },
-        templateUrl: 'js/directives/movieDirective.html'
+        templateUrl: 'partials/movieDirective.html'
     };
 };

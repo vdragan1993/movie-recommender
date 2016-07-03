@@ -69,6 +69,7 @@ module.exports = function ($scope, $location, $rootScope, Rated) {
     $scope.ratedMovies = function () {
         // validation
         var nonZeros = 0;
+        $scope.infoMessage = null;
 
         for (var i=0; i<$scope.movies.length; i++){
             if ($scope.movies[i].rate > 10) {
@@ -82,8 +83,8 @@ module.exports = function ($scope, $location, $rootScope, Rated) {
             }
         }
 
-        if (nonZeros === 0) {
-            $scope.infoMessage = "Rate at least one movie!";
+        if (nonZeros < 2) {
+            $scope.infoMessage = "Rate at least two movies!";
             return;
         }
 
@@ -96,7 +97,7 @@ module.exports = function ($scope, $location, $rootScope, Rated) {
                 }
                 else {
                    $scope.results = response.data.results; 
-                   
+                   $scope.infoMessage = null;
                 }
                 
             }
