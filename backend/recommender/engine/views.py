@@ -12,7 +12,7 @@ from .models import Service
 import pymongo
 from pymongo import MongoClient
 import json
-from .utils import form_critics, get_default_recommendations
+from .utils import form_critics, pearson_default_recommendation, euclid_default_recommendation
 
 
 def index(request):
@@ -279,14 +279,22 @@ def favourites(request):
         # call apropriate util
         if heuristic != 'empty':
             user = heuristic['user']
+            # default heuristics
             if user == 'default':
-                result = json.loads(get_default_recommendations(critics, 'default'))
+                # Euclidean or Pearson
+                heuristic_name = heuristic['name']
+                if "Euclidean" in heuristic_name:
+                    result = euclid_default_recommendation(critics, 'default')
+                else:
+                    result = pearson_default_recommendation(critics, 'default')
                 print(result)
             else:
+                # call REST method
                 heuristic_name = heuristic['name']
                 print("REST recommendation!" + heuristic_name)
+        # no heuristics selected, default is Pearson's
         else:
-            result = json.loads(get_default_recommendations(critics, 'default'))
+            result = pearson_default_recommendation(critics, 'default')
             print(result)
 
         response = {}

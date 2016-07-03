@@ -61,7 +61,10 @@ def similarity_distance(data, person1, person2):
         return 0
 
     # calculating distance
-    sum_of_squares = sum([pow(data[person1][item] - data[person2][item], 2)] for item in shared_items)
+    sum_of_squares = 0
+    for item in shared_items:
+        sum_of_squares += pow(data[person1][item] - data[person2][item], 2)
+
     ret_val = 1 / (1 + sqrt(sum_of_squares))
     return ret_val
 
@@ -113,7 +116,7 @@ def pearson_correlation(data, person1, person2):
     return ret_val
 
 
-def get_default_recommendations(data, person, similarity=pearson_correlation):
+def get_default_recommendations(data, person, similarity):
     """
     Gets recommendations for a person using a weighted average of positive correlated users.
     :param data: movie ratings
@@ -148,3 +151,23 @@ def get_default_recommendations(data, person, similarity=pearson_correlation):
         rankings.sort()
         rankings.reverse()
         return rankings
+
+
+def pearson_default_recommendation(data, person):
+    """
+    Wrapper for Pearson recommendation
+    :param data:
+    :param person:
+    :return:
+    """
+    return get_default_recommendations(data, person, similarity=pearson_correlation)
+
+
+def euclid_default_recommendation(data, person):
+    """
+    Wrapper for Euclidean recommendation
+    :param data:
+    :param person:
+    :return:
+    """
+    return get_default_recommendations(data, person, similarity=similarity_distance)

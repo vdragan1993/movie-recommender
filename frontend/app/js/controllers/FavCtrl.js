@@ -65,8 +65,8 @@ module.exports = function ($scope, $location, $rootScope, Favourites) {
             $scope.favourites.push($scope.movie3.selected);
         }
 
-        if ($scope.favourites.length === 0){
-            $scope.infoMessage = "Enter at least one favourite movie!";
+        if ($scope.favourites.length < 2){
+            $scope.infoMessage = "Enter at least two favourite movies!";
             return;
         }
 
