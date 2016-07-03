@@ -63,6 +63,13 @@ gulp.task('copy-ico-file', function () {
         .pipe(gulp.dest('dist/'));
 });
 
+
+gulp.task('copy-images', function () {
+    gulp.src('./app/**/*.jpg')
+        .pipe(gulp.dest('dist/'));
+})
+
+
 gulp.task('connect', function () {
     connect.server({
         root: 'app/',
@@ -109,7 +116,7 @@ gulp.task('default',
 gulp.task('build', function() {
     runSequence(
         ['clean'],
-        ['lint', 'minify-css', 'browserifyDist', 'copy-html-files', 'copy-ico-file', 'copy-bower-components', 'connectDist']
+        ['lint', 'minify-css', 'browserifyDist', 'copy-html-files', 'copy-ico-file', 'copy-images', 'copy-bower-components', 'connectDist']
     );
 });
 
