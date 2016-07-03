@@ -171,3 +171,35 @@ def euclid_default_recommendation(data, person):
     :return:
     """
     return get_default_recommendations(data, person, similarity=similarity_distance)
+
+
+def get_movie_by_id(id):
+    """
+    Gets movie data from database
+    :param id: movie imdb_id
+    :return: movie data in json
+    """
+    client = MongoClient()
+    db = client.recommend
+    cursor = db.movies.find({'id': id})
+    for movie in cursor:
+        return movie
+
+
+def result_analyzer(result, number):
+    """
+    Returns list of movie data
+    :param result: result of recommendation
+    :param number: number of results to show
+    :return: list of movie json data
+    """
+    ret_val = []
+    counter = 0
+    for res in result:
+        counter += 1
+        if counter == number+1:
+            break
+        this_id = res[1]
+        ret_val.append(get_movie_by_id(this_id))
+
+    return ret_val
