@@ -22,6 +22,9 @@
     var Favourites = require('./services/Favourites');
     var Rated = require('./services/Rated');
 
+    // directives
+    var movieInfo = require('./directives/movieInfo');
+
 
     angular.module('movieApp', ['ngRoute', 'ngAnimate', 'ui.select', 'ngSanitize'])
     
@@ -86,7 +89,8 @@
     .factory('Profile', ['$http', '$rootScope', Profile])
     .factory('Favourites', ['$http', '$rootScope', Favourites])
     .factory('Rated', ['$http', '$rootScope', Rated])
-   
+    // load directives
+    .directive('movieInfo', movieInfo)
 
     //authentication
     .run(function(RegLog){

@@ -307,8 +307,7 @@ def favourites(request):
             message = "No results!"
         response = {}
         response['message'] = message
-        response['results'] = json.dumps(results, default=json_util.default)
-        print(results)
+        response['results'] = results
         return JsonResponse(response)
 
 
@@ -375,8 +374,7 @@ def rated(request):
             message = "No results!"
         response = {}
         response['message'] = message
-        response['results'] = json.dumps(results, default=json_util.default)
-        print(results)
+        response['results'] = results
         return JsonResponse(response)
 
 

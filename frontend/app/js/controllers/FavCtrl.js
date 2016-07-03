@@ -12,6 +12,9 @@ module.exports = function ($scope, $location, $rootScope, Favourites) {
     $scope.services = [];
     $scope.heuristic = {};
 
+    // for results
+    $scope.results = [];
+
     // load movies
     Favourites.load().then(
         function (response) {
@@ -79,6 +82,9 @@ module.exports = function ($scope, $location, $rootScope, Favourites) {
                     $scope.movie2 = {};
                     $scope.movie3 = {};
                     $scope.favourites = [];
+                }
+                else {
+                   $scope.results = response.data.results; 
                 }
             }
         );

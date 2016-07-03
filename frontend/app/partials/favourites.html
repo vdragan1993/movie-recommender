@@ -124,6 +124,14 @@
                         </div>
                     </div>
                 </form>
+
+                <div ng-if="results.length > 0">
+                    {{results.length}}
+                    <div ng-repeat="result in results">
+                        <movie-info info="result"></movie-info>
+                    </div>
+
+                </div>
         
             </div>
         </div>

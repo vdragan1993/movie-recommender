@@ -259,6 +259,16 @@ def result_analyzer(result, number):
         if counter == number+1:
             break
         this_id = res[1]
-        ret_val.append(get_movie_by_id(this_id))
+        this_movie = get_movie_by_id(this_id)
+        ret_movie = {}
+        ret_movie['id'] = this_movie['id']
+        ret_movie['poster'] = this_movie['poster']
+        ret_movie['title'] = this_movie['title']
+        ret_movie['year'] = this_movie['year']
+        ret_movie['actors'] = this_movie['actors']
+        ret_movie['genre'] = this_movie['genre']
+        ret_movie['imdb_rating'] = this_movie['imdb_rating']
+        ret_movie['runtime'] = this_movie['runtime']
+        ret_val.append(ret_movie)
 
     return ret_val
