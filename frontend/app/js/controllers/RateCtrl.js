@@ -8,6 +8,8 @@ module.exports = function ($scope, $location, $rootScope, Rated) {
     // for user defined
     $scope.services = [];
     $scope.heuristic = {};
+    // for results
+    $scope.results = [];
 
     // load movies
     Rated.load($scope.number).then(
@@ -87,9 +89,16 @@ module.exports = function ($scope, $location, $rootScope, Rated) {
 
         Rated.send(angular.toJson($scope.movies), $scope.heuristic.selected).then(
             function (response) {
+                
                 if (response.data.message) {
                     $scope.infoMessage =  response.data.message;
+                    
                 }
+                else {
+                   $scope.results = response.data.results; 
+                   
+                }
+                
             }
         );
 

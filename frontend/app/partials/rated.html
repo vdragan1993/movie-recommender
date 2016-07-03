@@ -98,6 +98,16 @@
 
                 <button id="delete" ng-if="number === 8" ng-click="loadMore()">Load More Movies</button>
 
+                <hr>
+
+                <div ng-if="results.length > 0">
+                    <p>We recommend for You:</p>
+                    <hr>
+                    <div ng-repeat="result in results">
+                        <movie-info info="result"></movie-info>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

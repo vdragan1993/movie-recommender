@@ -1,5 +1,4 @@
 module.exports = function () {
-    console.log("Hello direktiva");
     return {
         restrict: 'E',
         scope: {
