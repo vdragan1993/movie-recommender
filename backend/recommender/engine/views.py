@@ -12,7 +12,7 @@ from .models import Service
 import pymongo
 from pymongo import MongoClient
 import json
-from .utils import form_critics, pearson_default_recommendation, euclid_default_recommendation
+from .utils import form_critics, pearson_default_recommendation, euclid_default_recommendation, get_rest_recommendation
 
 
 def index(request):
@@ -291,7 +291,9 @@ def favourites(request):
             else:
                 # call REST method
                 heuristic_name = heuristic['name']
-                print("REST recommendation!" + heuristic_name)
+                service_url = get_service_url(user, heuristic_name)
+                result = get_rest_recommendation(critics, 'default', service_url)
+                print(result)
         # no heuristics selected, default is Pearson's
         else:
             result = pearson_default_recommendation(critics, 'default')
@@ -301,6 +303,18 @@ def favourites(request):
         response['message'] = 'No recommendations'
         return JsonResponse(response)
 
+
+def get_service_url(username, heuristic_name):
+    """
+    Returns url of personal service
+    :param username: service user name
+    :param heuristic_name: heuristic name
+    :return: url
+    """
+    user = User.objects.filter(username=username)
+    service = Service.objects.filter(user=user).filter(name=heuristic_name)
+    ret_val = "http://" + service[0].host + ":" + str(service[0].port) + "/" + heuristic_name + "/"
+    return ret_val
 
 @csrf_exempt
 def rated(request):

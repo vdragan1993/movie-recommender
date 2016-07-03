@@ -1,5 +1,7 @@
 from pymongo import MongoClient
 from math import sqrt
+import requests
+import json
 
 
 def form_critics():
@@ -151,6 +153,63 @@ def get_default_recommendations(data, person, similarity):
         rankings.sort()
         rankings.reverse()
         return rankings
+
+
+def get_rest_recommendation(data, person, service_url):
+    """
+    Gets recommendations for a person using a weighted average of positive correlated users.
+    REST communication with similarity method
+    :param data: movie ratings
+    :param person: given person
+    :param service_url: url of similarity heuristics
+    :return: list of recommendations with predicted ratings
+    """
+    totals = {}
+    similarity_sums = {}
+    for other in data:
+        # skip myself
+        if other == person:
+            continue
+
+        sim = get_rest_similarity(data, person, other, service_url)
+        # ignore zero or negative correlations
+        if sim <= 0:
+            continue
+
+        for item in data[other]:
+            # score movies person hasn't seen yet
+            if item not in data[person] or data[person][item] == 0:
+                # similarity * score
+                totals.setdefault(item, 0)
+                totals[item] += data[other][item] * sim
+                # sum of similarities
+                similarity_sums.setdefault(item, 0)
+                similarity_sums[item] += sim
+
+        # normalised list
+        rankings = [(total / similarity_sums[item], item) for item, total in totals.items()]
+        rankings.sort()
+        rankings.reverse()
+        return rankings
+
+
+def get_rest_similarity(this_data, person, other, url):
+    """
+    Sends users data and calculates similarity
+    :param this_data: users ratings data
+    :param person: user
+    :param other: user
+    :return: similarity value
+    """
+    new_data = form_user_critics(person, other, this_data)
+    data = {}
+    data['critics'] = json.dumps(new_data)
+    data['person1'] = person
+    data['person2'] = other
+    response = requests.post(url, data=data)
+    response_json = response.json()
+    ret_val = float(response_json['similarity'])
+    return ret_val
 
 
 def pearson_default_recommendation(data, person):
