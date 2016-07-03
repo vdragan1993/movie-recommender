@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'engine.apps.EngineConfig',
     'rest_framework',
     'corsheaders',
+    'service.apps.ServiceConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

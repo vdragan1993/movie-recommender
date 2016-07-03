@@ -12,6 +12,7 @@ from .models import Service
 import pymongo
 from pymongo import MongoClient
 import json
+from .utils import form_critics, get_default_recommendations
 
 
 def index(request):
@@ -262,13 +263,32 @@ def favourites(request):
     :return:
     """
     if request.method == 'POST':
+        # read data
         data = JSONParser().parse(request)
-        favourites = json.loads(data['favourites'])
+        this_favourites = json.loads(data['favourites'])
         heuristic = data['heuristic']
-        print(heuristic)
-        print(len(favourites))
-        for favourite in favourites:
-            print(favourite)
+        # prepare critics
+        critics = form_critics()
+        # append this users' critics
+        minus = 0
+        critics['default'] = {}
+        for favourite in this_favourites:
+            favourite_movie = favourite['id']
+            critics['default'][favourite_movie] = 10 - minus
+            minus += 1
+        # call apropriate util
+        if heuristic != 'empty':
+            user = heuristic['user']
+            if user == 'default':
+                result = json.loads(get_default_recommendations(critics, 'default'))
+                print(result)
+            else:
+                heuristic_name = heuristic['name']
+                print("REST recommendation!" + heuristic_name)
+        else:
+            result = json.loads(get_default_recommendations(critics, 'default'))
+            print(result)
+
         response = {}
         response['message'] = 'No recommendations'
         return JsonResponse(response)
