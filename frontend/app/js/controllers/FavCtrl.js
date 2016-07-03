@@ -72,6 +72,7 @@ module.exports = function ($scope, $location, $rootScope, Favourites) {
 
         Favourites.send(angular.toJson($scope.favourites), $scope.heuristic.selected).then(
             function (response) {
+                console.log(response.data);
                 if (response.data.message) {
                     $scope.infoMessage =  response.data.message;
                     $scope.movie1 = {};

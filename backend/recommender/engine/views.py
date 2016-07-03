@@ -12,7 +12,8 @@ from .models import Service
 import pymongo
 from pymongo import MongoClient
 import json
-from .utils import form_critics, pearson_default_recommendation, euclid_default_recommendation, get_rest_recommendation
+from .utils import form_critics, pearson_default_recommendation, euclid_default_recommendation, get_rest_recommendation, result_analyzer
+from bson import json_util
 
 
 def index(request):
@@ -276,6 +277,7 @@ def favourites(request):
             favourite_movie = favourite['id']
             critics['default'][favourite_movie] = 10 - minus
             minus += 1
+
         # call apropriate util
         if heuristic != 'empty':
             user = heuristic['user']
@@ -287,20 +289,26 @@ def favourites(request):
                     result = euclid_default_recommendation(critics, 'default')
                 else:
                     result = pearson_default_recommendation(critics, 'default')
-                print(result)
             else:
                 # call REST method
                 heuristic_name = heuristic['name']
                 service_url = get_service_url(user, heuristic_name)
                 result = get_rest_recommendation(critics, 'default', service_url)
-                print(result)
         # no heuristics selected, default is Pearson's
         else:
             result = pearson_default_recommendation(critics, 'default')
-            print(result)
 
+        # prepare response
+        message = ""
+        results = []
+        if result:
+            results = result_analyzer(result, 5)
+        else:
+            message = "No results!"
         response = {}
-        response['message'] = 'No recommendations'
+        response['message'] = message
+        response['results'] = json.dumps(results, default=json_util.default)
+        print(results)
         return JsonResponse(response)
 
 
@@ -324,15 +332,51 @@ def rated(request):
     :return:
     """
     if request.method == 'POST':
+        # read request data
         data = JSONParser().parse(request)
         ratings = json.loads(data['rated'])
         heuristic = data['heuristic']
-        print(heuristic)
-        print(len(ratings))
+        # prepare critics
+        critics = form_critics()
+        # append user rates
+        critics['default'] = {}
         for rate in ratings:
-            print(rate)
+            movie_id = rate['id']
+            movie_rate = int(rate['rate'])
+            if movie_rate > 0:
+                critics['default'][movie_id] = movie_rate
+
+        # call appropriate util
+        if heuristic != 'empty':
+            user = heuristic['user']
+            # default heuristics
+            if user == 'default':
+                # Euclidean or Pearson
+                heuristic_name = heuristic['name']
+                if "Euclidean" in heuristic_name:
+                    result = euclid_default_recommendation(critics, 'default')
+                else:
+                    result = pearson_default_recommendation(critics, 'default')
+            else:
+                # call REST method
+                heuristic_name = heuristic['name']
+                service_url = get_service_url(user, heuristic_name)
+                result = get_rest_recommendation(critics, 'default', service_url)
+        # no heuristics selected, default is Pearson's
+        else:
+            result = pearson_default_recommendation(critics, 'default')
+
+        # prepare response
+        message = ""
+        results = []
+        if result:
+            results = result_analyzer(result, 5)
+        else:
+            message = "No results!"
         response = {}
-        response['message'] = 'No recommendations'
+        response['message'] = message
+        response['results'] = json.dumps(results, default=json_util.default)
+        print(results)
         return JsonResponse(response)
 
 
